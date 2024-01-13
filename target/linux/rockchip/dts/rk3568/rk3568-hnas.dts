@@ -40,6 +40,9 @@
 		 * kernel boot slow with log
 		 * `ata1: link is slow to respond, please be patient`
 		 * disable it now, and enable it after system startup
+		 *
+		 * UPDATE: above error just because CONFIG_SATA_PMP not enabled on kernel
+		 * but we keep this disabled to avoiding scan rootfs from SATA
 		 */
 		status = "disabled";
 	};
@@ -185,8 +188,8 @@
 		};
 
 		cpu_idle: cpu_idle {
-			temperature = <45000>;
-			hysteresis = <3000>;
+			temperature = <47000>;
+			hysteresis = <5000>;
 			type = "passive";
 		};
 	};
