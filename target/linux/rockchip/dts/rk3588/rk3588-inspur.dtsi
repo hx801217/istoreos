@@ -157,6 +157,15 @@
 		pinctrl-0 = <&sata_pwr_pins>;
 	};
 
+	gphy0_reset: gphy0-reset {
+		compatible = "regulator-fixed";
+		regulator-name = "gphy0_reset";
+		regulator-always-on;
+		regulator-boot-on;
+		pinctrl-names = "default";
+		pinctrl-0 = <&gphy0_reset_pins>;
+	};
+
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
@@ -211,6 +220,34 @@
 	mmc-hs400-enhanced-strobe;
 	full-pwr-cycle-in-suspend;
 	status = "okay";
+};
+
+&gmac0 {
+	phy-mode = "rgmii-rxid";
+	clock_in_out = "output";
+
+	snps,reset-gpio = <&gpio0 RK_PB7 GPIO_ACTIVE_LOW>;
+	snps,reset-active-low;
+	/* Reset time is 20ms, 100ms for rtl8211f */
+	snps,reset-delays-us = <0 20000 100000>;
+
+	phy-handle = <&rgmii_phy0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac0_miim
+		     &gmac0_tx_bus2
+		     &gmac0_rx_bus2
+		     &gmac0_rgmii_clk
+		     &gmac0_rgmii_bus>;
+
+	tx_delay = <0x44>;
+	status = "okay";
+};
+
+&mdio0 {
+	rgmii_phy0: phy@1 {
+		compatible = "ethernet-phy-ieee802.3-c22";
+		reg = <0x1>;
+	};
 };
 
 &gmac1 {
@@ -721,6 +758,12 @@
 				<3 RK_PC3 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
+	gphy {
+		gphy0_reset_pins: gphy0-reset-pins {
+			rockchip,pins =
+				<0 RK_PB7 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
 	hym8563 {
 		rtc_int: rtc-int {
 			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>;
@@ -771,11 +814,11 @@
 				/* hdd1 pwr */
 				<0 RK_PC5 RK_FUNC_GPIO &pcfg_output_high>,
 				/* hdd2 pwr */
-				<0 RK_PC6 RK_FUNC_GPIO &pcfg_output_high>,
+				<0 RK_PC6 RK_FUNC_GPIO &pcfg_output_high>;
 				/* hdd3 pwr */
-				<0 RK_PB7 RK_FUNC_GPIO &pcfg_output_high>,
+				// <0 RK_PB7 RK_FUNC_GPIO &pcfg_output_high>,
 				/* hdd4 pwr */
-				<0 RK_PD3 RK_FUNC_GPIO &pcfg_output_high>;
+				// <0 RK_PD3 RK_FUNC_GPIO &pcfg_output_high>;
 		};
 	};
 
