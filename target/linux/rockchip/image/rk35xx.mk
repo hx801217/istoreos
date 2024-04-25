@@ -67,11 +67,23 @@ $(call Device/rk3568)
   SOC := rk3566
 endef
 
+define Device/armsom_sige1
+$(call Device/rk3528)
+  DEVICE_VENDOR := ArmSoM
+  DEVICE_MODEL := sige1
+  SUPPORTED_DEVICES += armsom,sige1 armsom,sige1-v1 armsom,sige1-v1.0
+  DEVICE_PACKAGES := kmod-r8125 kmod-thermal
+endef
+TARGET_DEVICES += armsom_sige1
+
 define Device/armsom_sige7-v1
 $(call Device/rk3588)
   DEVICE_VENDOR := ArmSoM
   DEVICE_MODEL := sige7
-  DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-hwmon-pwmfan kmod-thermal
+  SUPPORTED_DEVICES += armsom,sige7-v1
+  DEVICE_DTS := rk3588-sige7-v1-1 rk3588-sige7-v1
+  DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-hwmon-pwmfan kmod-thermal kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275p
+  IMAGE/sysupgrade.img.gz := boot-combined | boot-script rk3588 | pine64-img | gzip | append-metadata
 endef
 TARGET_DEVICES += armsom_sige7-v1
 
@@ -138,8 +150,8 @@ $(call Device/rk3568)
 $(call Device/rk3568_combined_friendlyelec)
   DEVICE_VENDOR := FriendlyARM
   DEVICE_MODEL := NanoPi R5S/R5C combined
-  SUPPORTED_DEVICES += friendlyelec,nanopi-r5s friendlyarm,nanopi-r5s friendlyelec,nanopi-r5c
-  DEVICE_DTS := rk3568-nanopi-r5s rk3568-nanopi-r5c
+  SUPPORTED_DEVICES += friendlyelec,nanopi-r5s friendlyarm,nanopi-r5s friendlyelec,nanopi-r5c friendlyelec,nanopi-r5s-c1
+  DEVICE_DTS := rk3568-nanopi-r5s rk3568-nanopi-r5c rk3568-nanopi-r5s-lts rk3568-nanopi-r5s-c1
   DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal
 endef
 TARGET_DEVICES += friendlyarm_nanopi-r5s
@@ -278,6 +290,14 @@ $(call Device/rk3566)
   DEVICE_PACKAGES := kmod-scsi-core kmod-thermal kmod-hwmon-pwmfan
 endef
 TARGET_DEVICES += le_hes30
+
+define Device/mangopi_m28k
+$(call Device/hinlink_rk3528)
+  DEVICE_VENDOR := MangoPi
+  DEVICE_MODEL := M28K
+  SUPPORTED_DEVICES := mangopi,m28k
+endef
+TARGET_DEVICES += mangopi_m28k
 
 define Device/nlnet_xgp
 $(call Device/rk3568)

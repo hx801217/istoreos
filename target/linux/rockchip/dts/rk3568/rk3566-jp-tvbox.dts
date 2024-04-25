@@ -24,7 +24,7 @@
 		bootargs = "earlycon=uart8250,mmio32,0xfe660000 console=ttyFIQ0 root=PARTUUID=614e0000-0000 rw rootwait";
 	};
 
-	fiq-debugger {
+	fiq_debugger: fiq-debugger {
 		compatible = "rockchip,fiq-debugger";
 		rockchip,serial-id = <2>;
 		rockchip,wake-irq = <0>;
@@ -221,6 +221,7 @@
 	};
 };
 #else
+
 &hdmi_in_vp0 {
 	status = "okay";
 };
@@ -229,8 +230,6 @@
 	status = "disabled";
 };
 #endif
-
-
 
 &hdmi_sound {
 	status = "okay";
@@ -388,8 +387,8 @@
 				regulator-name = "vccio_acodec";
 				regulator-always-on;
 				regulator-boot-on;
-				regulator-min-microvolt = <3000000>;
-				regulator-max-microvolt = <3000000>;
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
 
 				regulator-state-mem {
 					regulator-off-in-suspend;
@@ -488,7 +487,7 @@
 };
 
 &gmac1 {
-	snps,reset-gpio = <&gpio3 RK_PA1 GPIO_ACTIVE_HIGH>;
+	snps,reset-gpio = <&gpio3 RK_PA1 GPIO_ACTIVE_LOW>;
 	snps,reset-active-low;
 	/* Reset time is 20ms, 100ms for rtl8211f */
 	snps,reset-delays-us = <0 20000 100000>;
@@ -502,10 +501,10 @@
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac1m0_miim
-			&gmac1m0_tx_bus2_level3
+			&gmac1m0_tx_bus2
 			&gmac1m0_rx_bus2
-			&gmac1m0_rgmii_clk_level2
-			&gmac1m0_rgmii_bus_level3>;
+			&gmac1m0_rgmii_clk
+			&gmac1m0_rgmii_bus>;
 
 	tx_delay = <0x41>;
 	rx_delay = <0x2e>;
@@ -514,15 +513,16 @@
 	status = "okay";
 };
 
-&i2s0_8ch {
-	status = "okay";
-};
-
 &mdio1 {
 	rgmii_phy1: ethernet-phy@1 {
 		compatible = "ethernet-phy-ieee802.3-c22";
 		reg = <0x1>;
+		status = "okay";
 	};
+};
+
+&i2s0_8ch {
+	status = "okay";
 };
 
 &pinctrl {
@@ -578,7 +578,6 @@
 };
 
 &pmu_io_domains {
-	status = "okay";
 	pmuio1-supply = <&vcc3v3_pmu>;
 	pmuio2-supply = <&vcc3v3_pmu>;
 	vccio1-supply = <&vccio_acodec>;
@@ -587,11 +586,16 @@
 	vccio5-supply = <&vcc_3v3>;
 	vccio6-supply = <&vcc_1v8>;
 	vccio7-supply = <&vcc_3v3>;
+	status = "okay";
 };
 
 &sdhci {
 	bus-width = <8>;
+	max-frequency = <200000000>;
+	no-sdio;
+	no-sd;
 	mmc-hs200-1_8v;
+	supports-emmc;
 	non-removable;
 	status = "okay";
 };
@@ -601,16 +605,17 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	bus-width = <4>;
+	max-frequency = <150000000>;
 	cap-sd-highspeed;
 	cap-sdio-irq;
 	disable-wp;
+	non-removable;
+	supports-sdio;
+	sd-uhs-sdr50;
 	keep-power-in-suspend;
 	mmc-pwrseq = <&sdio_pwrseq>;
-	non-removable;
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdmmc1_bus4 &sdmmc1_cmd &sdmmc1_clk>;
-	sd-uhs-sdr50;
-	supports-sdio;
 	status = "okay";
 	vmmc-supply = <&vcc3v3_sys>;
 	vqmmc-supply = <&vcca1v8_pmu>;
@@ -768,7 +773,7 @@
 	status = "okay";
 };
 
-&rknpu {	
+&rknpu {
 	rknpu-supply = <&vdd_npu>;
 	status = "okay";
 };
@@ -777,8 +782,17 @@
 	status = "okay";
 };
 
+&vdpu {
+	status = "okay";
+};
+
+&vepu_mmu {
+	status = "okay";
+};
+
 &usbdrd_dwc3 {
 	dr_mode = "host";
+	extcon = <&usb2phy0>;
 	status = "okay";
 };
 
@@ -792,12 +806,4 @@
 
 &usbhost30 {
     status = "okay";
-};
-
-&vdpu {
-	status = "okay";
-};
-
-&vepu_mmu {
-	status = "okay";
 };

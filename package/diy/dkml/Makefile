@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dkml
-PKG_VERSION:=1.0.0
+PKG_VERSION:=1.0.3
 PKG_RELEASE:=1
 PKG_FLAGS:=hold essential nonshared
 
@@ -13,7 +13,7 @@ define Package/dkml
   SECTION:=utils
   CATEGORY:=Base system
   TITLE:=iStoreOS DKML
-  DEPENDS:=@TARGET_x86 
+  DEPENDS:=+ubox
 endef
 
 define Package/dkml/description
@@ -33,6 +33,7 @@ endef
 define Package/dkml/install
 	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/kmods.init $(1)/etc/init.d/kmods
+	$(INSTALL_BIN) ./files/kmods-unload.init $(1)/etc/init.d/kmods-unload
 	$(INSTALL_DATA) ./files/kmods.config $(1)/etc/config/kmods
 endef
 
