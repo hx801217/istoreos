@@ -96,7 +96,6 @@ set_iface_cpumask() {
 board_fixup_iface_name() {
 	local device
 	case $(board_name) in
-	friendlyelec,nanopi-r5c|\
 	fastrhino,r66s|lunzn,fastrhino-r66s)
 		device="$(get_iface_device eth0)"
 		if [[ "$device" = "0001:*1:00.0" ]]; then
@@ -106,6 +105,7 @@ board_fixup_iface_name() {
 		fi
 		;;
 	easepi,ars4|\
+	friendlyarm,nanopi-r5c|friendlyelec,nanopi-r5c|\
 	jsy,h1|\
 	hinlink,hnas|\
 	hinlink,opc-h66k)
@@ -139,7 +139,7 @@ board_fixup_iface_name() {
 			rename_iface wan eth1
 		fi
 		;;
-	friendlyelec,nanopi-r5s|friendlyelec,nanopi-r5s-c1)
+	friendlyarm,nanopi-r5s|friendlyelec,nanopi-r5s|friendlyelec,nanopi-r5s-c1)
 		device="$(get_iface_device eth2)"
 		# r5s lan1 is under pcie2x1
 		if [[ "$device" = "0000:01:00.0" ]]; then
@@ -171,7 +171,7 @@ board_fixup_iface_name() {
 			rename_iface lan2 eth2
 		fi
 		;;
-	friendlyelec,nanopi-r6s)
+	friendlyarm,nanopi-r6s|friendlyelec,nanopi-r6s)
 		device="$(get_iface_device eth1)"
 		if [[ "$device" = "0004:*1:00.0" ]]; then
 			rename_iface eth1 lan2
