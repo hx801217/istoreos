@@ -70,7 +70,7 @@ rockchip_setup_interfaces()
 		;;
 	linkease,easepi-r2)
 		ucidef_set_interfaces_lan_wan 'eth1 eth2 eth3' 'eth0'
-		ucidef_set_interface "wwan" device "usb4g" protocol "none"
+		ucidef_set_interface "wwan" device "usb4g" metric "100" protocol "none"
 		;;
 	radxa,e24c)
 		ucidef_add_switch "switch0" \
