@@ -46,7 +46,15 @@ clean_and_exit() {
 
 # RNDIS: AT+MDIALUPCFG="mode",0
 # ECM: AT+MDIALUPCFG="mode",1
+# Dialup: AT+MDIALUP=1,1
 # Auto dialup: AT+MDIALUPCFG="auto",1
+# SIM card status: AT+CPIN?
+# SIM card ICCID: AT+MCCID
+# SIM card IMSI: AT+CIMI
+# Modem IMEI: AT+CGSN=1
+# Network status: AT+CEREG?
+# IP address: AT+MDIALUP?
+# Signal quality: AT+CSQ
 # Reboot: AT+MREBOOT=0
 
 if [[ -n "$TTYNAME" && -e "/dev/$TTYNAME" ]]; then
