@@ -9,12 +9,12 @@ present in the U-Boot source tree.
 
 ---
  dts/upstream/src/arm64/airoha/en7581.dtsi | 400 +++++++++++++++++++++++++++++
- 1 file changed, 400 insertions(+)
+ 1 file changed, 399 insertions(+)
  create mode 100644 dts/upstream/src/arm64/airoha/en7581.dtsi
 
 --- /dev/null
 +++ b/dts/upstream/src/arm64/airoha/en7581.dtsi
-@@ -0,0 +1,400 @@
+@@ -0,0 +1,399 @@
 +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +
 +#include <dt-bindings/interrupt-controller/irq.h>
